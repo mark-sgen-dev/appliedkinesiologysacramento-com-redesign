@@ -1,0 +1,280 @@
+/* site.css — the redesign's own design system.
+   EVERY colour comes from tokens.css via var(--c-N): there is not one colour
+   literal in this file, which is what C13 reads for. Change a value in
+   tokens.css, never here. The palette is the old site's own measured colours
+   (design_reference: none), so the clinic still looks like itself. */
+
+/* ---------- reset ---------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+/* NO scroll-behavior: smooth. Measured 2026-10-28: it makes a programmatic
+   scroll animate, so the motion kit's own end-of-page net (site-motion.js
+   atFoot) never sees the foot and the last two sections of the home page
+   stayed at opacity 0. Every scroll-based measurement reforge takes - the
+   reveal, the sweeps, the full-height rasterise - reads the same way. */
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--fs-4);
+  line-height: 1.7;
+  color: var(--c-7);
+  background: var(--c-3);
+}
+/* A picture is never enlarged past its own size. Every img is emitted with its
+   natural width and height, so it lays out at that size and only ever shrinks
+   to fit. Measured 2026-10-28: without this a 35x35 service icon inside a
+   full-width frame became a blurry grey block a screen tall, and a 250x250
+   avatar became a huge flat colour field. */
+img, svg, video { max-width: 100%; height: auto; }
+img { width: auto; }
+figure { margin: 0; }
+h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); line-height: 1.2; margin: 0 0 var(--sp-7); color: var(--c-2); }
+h1 { font-size: var(--fs-13); }
+h2 { font-size: var(--fs-12); }
+h3 { font-size: var(--fs-10); }
+h4 { font-size: var(--fs-8); }
+p, ul, ol { margin: 0 0 var(--sp-10); }
+a { color: var(--c-1); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--c-5); }
+:focus-visible { outline: 3px solid var(--c-1); outline-offset: 2px; }
+
+.shell { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 var(--sp-10); }
+.skip {
+  position: absolute; left: -9999px; top: 0; z-index: 99;
+  background: var(--c-3); color: var(--c-2); padding: var(--sp-4) var(--sp-10);
+}
+.skip:focus { left: var(--sp-10); }
+
+/* ---------- buttons -------------------------------------------------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 48px; padding: var(--sp-4) var(--sp-12);
+  border: 2px solid var(--c-1); border-radius: var(--radius-3);
+  background: var(--c-1); color: var(--c-3);
+  font-family: var(--font-body); font-size: var(--fs-3); font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase; text-decoration: none;
+  cursor: pointer;
+}
+.btn:hover { background: var(--c-3); color: var(--c-1); }
+.btn-ghost { background: transparent; color: var(--c-3); border-color: var(--c-3); }
+.btn-ghost:hover { background: var(--c-3); color: var(--c-2); }
+
+/* ---------- header --------------------------------------------------- */
+.site-header {
+  position: sticky; top: 0; z-index: 40;
+  background: var(--c-3); border-bottom: 1px solid var(--c-4);
+  padding: var(--sp-3) 0;
+}
+.header-inner { display: flex; align-items: center; gap: var(--sp-10); flex-wrap: wrap; }
+.brand { display: inline-flex; align-items: center; flex: 0 0 auto; }
+.brand img { max-height: 58px; width: auto; }
+.site-nav { flex: 1 1 auto; }
+.site-nav ul { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-9); list-style: none; margin: 0; padding: 0; }
+.site-nav a {
+  display: inline-flex; align-items: center; min-height: 44px;
+  color: var(--c-2); font-size: var(--fs-3); font-weight: 600;
+  letter-spacing: .04em; text-transform: uppercase; text-decoration: none;
+}
+.site-nav a:hover, .site-nav a[aria-current="page"] { color: var(--c-1); }
+.header-cta { flex: 0 0 auto; }
+.header-phone {
+  display: inline-flex; align-items: center; min-height: 44px;
+  font-weight: 700; color: var(--c-2); text-decoration: none; font-size: var(--fs-5);
+}
+
+/* ---------- bands ---------------------------------------------------- */
+.band { padding: var(--sp-16) 0; }
+.band-tight { padding: var(--sp-13) 0; }
+.band-dark { background: var(--c-2); color: var(--c-4); }
+.band-dark h1, .band-dark h2, .band-dark h3 { color: var(--c-3); }
+.band-accent { background: var(--c-1); color: var(--c-3); }
+.band-accent h2, .band-accent h3 { color: var(--c-3); }
+.band-soft { background: var(--c-3); }
+.band-head { max-width: 760px; margin: 0 auto var(--sp-13); text-align: center; }
+.band-head p { font-size: var(--fs-7); color: var(--c-6); }
+.band-dark .band-head p, .band-accent .band-head p { color: var(--c-4); }
+.eyebrow {
+  display: block; font-family: var(--font-body); font-size: var(--fs-2);
+  font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--c-1); margin-bottom: var(--sp-2);
+}
+.band-dark .eyebrow, .band-accent .eyebrow { color: var(--c-3); }
+
+/* ---------- hero ----------------------------------------------------- */
+.hero { position: relative; background: var(--c-2); color: var(--c-3); overflow: hidden; }
+.hero-media { position: absolute; inset: 0; }
+.hero-media img { width: 100%; height: 100%; object-fit: cover; opacity: .32; }
+.hero-inner { position: relative; padding: var(--sp-17) 0 var(--sp-16); }
+.hero h1 { color: var(--c-3); font-size: var(--fs-14); max-width: 22ch; }
+.hero-lede { font-size: var(--fs-7); color: var(--c-4); max-width: 56ch; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: var(--sp-7); margin-top: var(--sp-11); }
+
+/* ---------- breadcrumbs: nav > ol > li, separators in CSS ------------ */
+.crumbs { margin-bottom: var(--sp-9); }
+.crumbs ol { display: flex; flex-wrap: wrap; align-items: center; list-style: none; margin: 0; padding: 0; gap: var(--sp-2); }
+.crumbs li { display: flex; align-items: center; font-size: var(--fs-3); color: var(--c-4); }
+.crumbs li + li::before { content: "/"; margin-right: var(--sp-2); color: var(--c-6); }
+.crumbs a { color: var(--c-3); display: inline-flex; align-items: center; min-height: 44px; }
+.crumbs [aria-current="page"] { color: var(--c-4); }
+
+/* ---------- prose ---------------------------------------------------- */
+.layout { display: grid; grid-template-columns: 1fr; gap: var(--sp-15); }
+.prose { max-width: 72ch; }
+.prose h2 { margin-top: var(--sp-13); }
+.prose h2:first-child { margin-top: 0; }
+.prose ul, .prose ol { padding-left: var(--sp-11); }
+.prose li { margin-bottom: var(--sp-1); }
+.prose figure { margin: 0 0 var(--sp-13); }
+.prose figcaption { font-size: var(--fs-3); color: var(--c-6); padding-top: var(--sp-2); }
+
+/* ---------- frame (kit hook: zoom on an img inside) ------------------ */
+/* Only a PHOTO fills its frame, and only up to its own natural width. An icon
+   or an avatar keeps its own size: `.frame--fill` is put on a frame by the
+   builder, from the picture's measured role in audit/image-inventory.json. */
+.frame { border-radius: var(--radius-3); overflow: hidden; }
+.frame img { display: block; }
+.frame--fill { background: var(--c-4); }
+.frame--fill img { width: 100%; }
+
+.frame--icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 48px; height: 48px; flex: 0 0 auto; border-radius: var(--radius-3);
+}
+.frame--icon img { width: 40px; height: 40px; object-fit: contain; }
+
+.frame--avatar {
+  width: 72px; height: 72px; flex: 0 0 auto;
+  border-radius: var(--radius-1); overflow: hidden; background: var(--c-4);
+}
+.frame--avatar img { width: 72px; height: 72px; object-fit: cover; }
+
+/* ---------- cards (kit hook: lift) ----------------------------------- */
+.grid { display: grid; grid-template-columns: 1fr; gap: var(--sp-11); }
+.card {
+  display: flex; flex-direction: column;
+  background: var(--c-3); border: 1px solid var(--c-4);
+  border-radius: var(--radius-3); overflow: hidden;
+}
+.card-body { padding: var(--sp-12); display: flex; flex-direction: column; gap: var(--sp-2); flex: 1 1 auto; }
+.card h3 { margin: 0; font-size: var(--fs-8); }
+.card p { margin: 0; color: var(--c-6); font-size: var(--fs-3); }
+.card-link {
+  display: inline-flex; align-items: center; min-height: 44px;
+  margin-top: auto; font-weight: 700; font-size: var(--fs-3);
+  letter-spacing: .04em; text-transform: uppercase; text-decoration: none;
+}
+
+/* ---------- services index (the old sidebar, rebuilt) ---------------- */
+.index-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: var(--sp-2); }
+.index-list a {
+  display: flex; align-items: center; min-height: 48px;
+  padding: var(--sp-3) var(--sp-10);
+  background: var(--c-3); border: 1px solid var(--c-4); border-left: 3px solid var(--c-1);
+  border-radius: var(--radius-3);
+  color: var(--c-2); font-size: var(--fs-3); font-weight: 600; text-decoration: none;
+}
+.index-list a:hover { background: var(--c-1); color: var(--c-3); border-color: var(--c-1); }
+.rail { align-self: start; }
+.rail h2 { font-size: var(--fs-8); }
+
+/* ---------- icon cards (the clinic's four approaches) ---------------- */
+.card--icon .card-body { align-items: flex-start; gap: var(--sp-7); }
+.card--icon h3 { margin: 0; }
+
+/* ---------- testimonials --------------------------------------------- */
+.quote {
+  margin: 0; background: var(--c-3); border: 1px solid var(--c-4);
+  border-top: 3px solid var(--c-1); border-radius: var(--radius-3);
+  padding: var(--sp-12); display: flex; flex-direction: column; gap: var(--sp-10);
+}
+.quote blockquote { margin: 0; font-size: var(--fs-7); line-height: 1.6; }
+.quote figcaption {
+  display: flex; align-items: center; gap: var(--sp-7); margin-top: auto;
+  font-weight: 700; color: var(--c-2); font-size: var(--fs-3);
+}
+
+/* ---------- the side panel, as cards --------------------------------- */
+.rail-card {
+  background: var(--c-3); border: 1px solid var(--c-4);
+  border-radius: var(--radius-3); padding: var(--sp-12); margin-bottom: var(--sp-11);
+}
+.rail-card h2, .rail-card h3 { font-size: var(--fs-8); margin: 0 0 var(--sp-10); }
+.rail-card > :last-child { margin-bottom: 0; }
+.rail-card .index-list { grid-template-columns: 1fr; }
+.thumbs { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-2); list-style: none; margin: 0; padding: 0; }
+.thumbs a { display: block; min-height: 0; }
+.thumbs .frame--fill { aspect-ratio: 4 / 3; }
+.thumbs .frame--fill img { height: 100%; object-fit: cover; }
+
+/* ---------- facts strip ---------------------------------------------- */
+.facts { display: grid; grid-template-columns: 1fr; gap: var(--sp-11); list-style: none; margin: 0; padding: 0; text-align: center; }
+.facts dt { font-family: var(--font-display); font-size: var(--fs-14); color: var(--c-1); line-height: 1; }
+.facts dd { margin: var(--sp-2) 0 0; font-size: var(--fs-3); letter-spacing: .08em; text-transform: uppercase; color: var(--c-6); }
+
+/* ---------- lead-gen band -------------------------------------------- */
+.lead { display: grid; grid-template-columns: 1fr; gap: var(--sp-15); }
+.lead-panel { background: var(--c-3); border: 1px solid var(--c-4); border-radius: var(--radius-3); padding: var(--sp-13); }
+.lead-rows { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-10); }
+.lead-rows dt { font-size: var(--fs-2); font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c-6); }
+.lead-rows dd { margin: var(--sp-1) 0 0; font-size: var(--fs-7); color: var(--c-2); }
+.lead-rows a { display: inline-flex; align-items: center; min-height: 44px; }
+.form-note { font-size: var(--fs-3); color: var(--c-6); border-top: 1px solid var(--c-4); margin-top: var(--sp-10); padding-top: var(--sp-10); }
+
+/* ---------- cta band ------------------------------------------------- */
+.cta { text-align: center; }
+.cta h2 { font-size: var(--fs-12); }
+.cta p { max-width: 60ch; margin-inline: auto; }
+.cta-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--sp-7); margin-top: var(--sp-11); }
+
+/* ---------- footer --------------------------------------------------- */
+.site-footer { background: var(--c-2); color: var(--c-4); padding: var(--sp-17) 0 0; }
+.site-footer h2 { color: var(--c-3); font-size: var(--fs-7); font-family: var(--font-body); letter-spacing: .1em; text-transform: uppercase; }
+/* auto-fit, so four columns do not leave a hole where a fifth would go */
+.footer-grid { display: grid; grid-template-columns: 1fr; gap: var(--sp-15); padding-bottom: var(--sp-16); align-content: start; }
+.site-footer ul { list-style: none; margin: 0; padding: 0; }
+.site-footer a { color: var(--c-4); text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; }
+.site-footer a:hover { color: var(--c-1); }
+.footer-brand img { max-height: 58px; width: auto; }
+.footer-brand p { font-size: var(--fs-3); }
+.copyright {
+  border-top: 1px solid var(--c-6); padding: var(--sp-7) 0;
+  display: flex; flex-wrap: wrap; gap: var(--sp-7); justify-content: space-between;
+  font-size: var(--fs-3);
+}
+
+/* ---------- 44x44 everywhere under 834px ----------------------------- */
+@media (max-width: 833px) {
+  a { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; }
+  .prose a, .site-footer p a, .copyright a { padding-block: var(--sp-3); }
+  button, .btn, summary { min-height: 44px; min-width: 44px; }
+  .site-nav ul { gap: var(--sp-1) var(--sp-4); }
+  h1 { font-size: var(--fs-12); }
+  .hero h1 { font-size: var(--fs-12); }
+}
+
+/* ---------- wider ---------------------------------------------------- */
+@media (min-width: 640px) {
+  .grid-2, .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .facts { grid-template-columns: repeat(2, 1fr); }
+  .index-list { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 834px) {
+  .band { padding: var(--sp-20) 0; }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .hero-inner { padding: var(--sp-21) 0 var(--sp-20); }
+  .hero h1 { font-size: var(--fs-15); }
+  .layout-rail { grid-template-columns: minmax(0, 1fr) 320px; gap: var(--sp-16); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .facts { grid-template-columns: repeat(4, 1fr); }
+  .lead-2 { grid-template-columns: repeat(2, 1fr); }
+  .thumbs { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .index-list { grid-template-columns: 1fr; }
+}
+
+/* a nav group names a set of pages, not a page: the source's own word, no link */
+.nav-group {
+  display: inline-flex; align-items: center; min-height: 44px;
+  color: var(--c-6); font-size: var(--fs-3); font-weight: 600;
+  letter-spacing: .04em; text-transform: uppercase;
+}
